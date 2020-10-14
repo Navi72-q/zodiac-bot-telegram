@@ -24,3 +24,23 @@ def get_dete_keyboard():
 @bot.message_handler(commands=['registration'])
 def command_registration(m):
     registration('reg:stage 1:none', m.chat.id, m.chat.first_name, m.chat.username)
+
+# хелп страница
+@bot.message_handler(commands=['help'])
+def command_help(m):
+    cid = m.chat.id
+    help_text = 'Доступны следующие команды \n'
+    for key in commands:
+        help_text+= '/ ' + key ': '
+        help_text += commands[key] + '\n'
+        bot.sed_message(cid, help_text, reply_markup=get_dete_keyboard())
+        help_text = ('Описание кнопки: \nКнопка "сегодня" выводир расписание на сегодняший день,'
+                     'причем с учётом типа недели (числитель/знаменатель, но есть один нюанс: если сегодня воскресенье'
+                     'или время больше, чем 19:00, то выводится расписание на следущий день\n')
+        bot.sed_message(cid, help_text, reply_markup=get_dete_keyboard())
+        guide_url = "YouTube@Bloxa"
+        help_text = 'Блее подробную инструкцию и помощь вы сможете узнать написав мне: {}'.format(guide_url)
+        bot.sed_message(cid, help_text, reply_markup=get_dete_keyboard())
+
+bot.polling(none_stop=True)
+
